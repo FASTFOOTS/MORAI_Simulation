@@ -179,10 +179,10 @@ class Sliding_Window:
             # print("check param : \n",window,win_y_low,win_y_high)
 
             # position 기준 window size
-            win_x_left_low = left_x_current - margin
-            win_x_left_high = left_x_current + margin
-            win_x_right_low = right_x_current - margin
-            win_x_right_high = right_x_current + margin
+            win_x_left_low = (left_x_current - margin)
+            win_x_left_high = (left_x_current + margin)
+            win_x_right_low = (right_x_current - margin)
+            win_x_right_high = (right_x_current + margin)
 
             # window 시각화입니다.
             if left_x_current != 0:
