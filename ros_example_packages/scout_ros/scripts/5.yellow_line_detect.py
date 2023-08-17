@@ -20,8 +20,8 @@ class Yellow_Line_Detect:
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         # Define range of yellow color in HSV
-        yellow_lower = np.array([15, 80, 0])
-        yellow_upper = np.array([45, 255, 255])
+        yellow_lower = np.array([20, 100, 100])
+        yellow_upper = np.array([30, 255, 255])
 
         # Threshold the HSV image to get only yellow colors
         yellow_mask = cv2.inRange(hsv, yellow_lower, yellow_upper)
