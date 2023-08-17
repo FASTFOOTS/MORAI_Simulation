@@ -20,8 +20,8 @@ class Binary_Line:
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         # Define range of yellow color in HSV
-        yellow_lower = np.array([15, 80, 0])
-        yellow_upper = np.array([45, 255, 255])
+        yellow_lower = np.array([20, 100, 100])
+        yellow_upper = np.array([30, 255, 255])
 
         # Define range of blend color in HSV
         white_lower = np.array([0, 0, 150])
