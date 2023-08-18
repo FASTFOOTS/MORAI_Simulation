@@ -1,1 +1,51 @@
-.
+# 3. bird_eye_vies
+이 코드는 차선인식을 위해 다른 배경(로봇 옆 배경이나 하늘 등) 없이 차선만 보도록 화면을 변환하는 코드이다.  
+하늘에 떠 있는 새가 아래를 바라보는 것처럼 화면이 변환된다.  
+
+#### (기존 사진과 bird_eye_vies로 변환한 사진 비교해서 올리기)  
+
+**1. 기준점 입력**
+```python
+img_size = [640, 480]
+src_center_offset = [200, 315]
+```
+- 죄측 차선위에 있는 점 하나를 선택하여 해당 점을 바탕으로 사다리꼴을 그려 이미지 변환
+- 기존 이미지 사이즈 640x480 입력
+- 200,315는 죄측 차선 위의 한 점(기준점으로 사용)
+- #### ( 200, 315의 위치를 보여주는 사진 추가하기 )
+  
+**2. 사다리꼴 영역 설정**
+```python
+src = np.float32([
+                [0, 479],
+                [src_center_offset[0], src_center_offset[1]],
+                [640 - src_center_offset[0], src_center_offset[1]],
+                [639, 479],
+            ])
+```
+- 사다리꼴을 그릴 4개의 점의 좌표 지정하기
+- 0, 479 : 죄측 차선 하단 점
+- src_center_offset[0], src_center_offset[1] : 1번에서 선택한 기준점
+- 640 - src_center_offset[0], src_center_offset[1] : 기준점을 뒤집은 우측 차선 위의 기준점
+- 639, 479 : 우측 차선 하단 점
+- #### (사다리꼴을 그린 사진 추가하기)
+
+**3. dst offset 설정**
+```python
+dst_offset = [round(self.img_x * 0.125), 0]
+```
+- 사다리꼴을 직사각형으로 바꾸기 위해 offset 설정
+- 좌측 상단 중 x좌표가 이미지의 0.125(1/8)가 되는 지점에 기준점을 위치시키기
+  
+**4. dst 영역 설정**
+```python
+dst = np.float32([
+                [dst_offset[0], self.img_y],
+                [dst_offset[0], 0],
+                [self.img_x - dst_offset[0], 0],
+                [self.img_x - dst_offset[0], self.img_y],
+            ])
+```
+- dst_offset을 바탕으로 변경시킬 직사각형 영역의 좌표 지정하기
+- 차례로 좌측 하단, 좌측 상단, 우측 상단, 우측 하단 점
+- #### (사다리꼴 그린 사진과 변경된 사진 점 위치 표시해서 서로 비교하는 사진 )
