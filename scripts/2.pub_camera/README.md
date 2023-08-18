@@ -17,9 +17,6 @@ def __init__(self):
 - Subscriber에서 message 구독 시 callback 함수 호출
 - camera_rgb_image topic에 컬러 이미지 메시지를 발행하는 Publisher 객체 생성
 - camera_gray_image topic에 흑백 이미지 메시지를 발행하는 Publisher 객체를 생성
-- rospy.spin()는 노드가 메시지나 이벤트를 기다리면서 실행을 계속하게 한다.
-- 즉, 코드의 실행 흐름이 rospy.spin()에 도달하면, 그 이후의 코드는 메시지나 이벤트가 도착할 때까지 실행되지 않음
-- rospy.spin() 이후 작업 추가를 원하면 이는 callback 함수 내에서 수행하도록 함. 
 
 **2. Callback**
 ```python
