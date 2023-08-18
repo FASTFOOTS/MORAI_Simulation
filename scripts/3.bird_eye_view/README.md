@@ -52,7 +52,8 @@ dst = np.float32([
 - dst에 dst_offset을 바탕으로 변경시킬 직사각형 영역의 좌표 지정하기
 - 차례로 좌측 하단, 좌측 상단, 우측 상단, 우측 하단 점
 
-![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/6122710f-0521-45fc-8a36-d94accc742ea)
+![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/591efabd-f099-4b18-a161-26b69892be9f)
+
 
 
 
