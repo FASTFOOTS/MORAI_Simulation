@@ -31,5 +31,5 @@ def callback(self, data):
     self.gray_pub.publish(gray_img_msg)
 ```
 - color image를 gray image로 변환 후 gray_img에 저장
-- img_bgr & gray_img는 cv type이기에 이를 다시 image type으로 변환 
+- img_bgr & gray_img는 open_cv type이기에 이를 다시 ros의 image type으로 변환 
 - 변환된 형태를 각각 _msg 이름의 변수 저장 및 각각을 publish
