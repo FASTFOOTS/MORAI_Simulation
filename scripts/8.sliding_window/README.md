@@ -6,12 +6,7 @@
 ![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/dd747dd2-4d6f-4e43-a5b6-c6571a666fa8)
 
 # 8.sliding_window
-{
-    각 함수의 결과를 한 줄로 정리하여 나타내도록. 
-
-    flag에 대한 정보를 나타내야함 
-}
-
+binary화 된 차선 이미지에 window를 적용하여 차선을 detection하고 차선에 line을 그리며 tracking을 하는 코드이다. 
 
 **1. init**
 ```python
@@ -225,8 +220,8 @@ min_pix = round((margin * 2 * window_height) * 0.0031) # 24
 ```
 - nonzero()는 NumPy 배열에서 0이 아닌 요소 index 추출 함수 
 - lane_pixel: binary_line에서 0이 아닌 값들을 나타내며, (row,column)의 형태
-- lane_pixel_y: lane_pixel 중 row값들을 ndarray 형태로 저장하는 변수 
-- lane_pixel_x: lane_pixel 중 column값들을 ndarray 형태로 저장하는 변수
+- lane_pixel_y: lane_pixel 중 row값들을 ndarray 형태로 저장하는 변수 -> 차선이라 판단한 pixel
+- lane_pixel_x: lane_pixel 중 column값들을 ndarray 형태로 저장하는 변수 -> 차선이라 판단한 pixel 
 
 ```python
 left_lane_idx = []
@@ -235,109 +230,168 @@ right_lane_idx = []
 - left_lane_idx: 왼쪽 차선 pixel index를 담는 list 변수
 - right_lane_idx: 오른쪽 차선 pixel index를 담는 list 변수 
 
+### 반복문 내 코드 설명 
 
-**rest**
 ```python
-
-        # Step through the windows one by one
-        for window in range(nwindows):
-            # window boundary를 지정합니다. (가로)
-            win_y_low = binary_line.shape[0] - (window + 1) * window_height
-            win_y_high = binary_line.shape[0] - window * window_height
-            # print("check param : \n",window,win_y_low,win_y_high)
-
-            # position 기준 window size
-            win_x_left_low = left_x_current - margin
-            win_x_left_high = left_x_current + margin
-            win_x_right_low = right_x_current - margin
-            win_x_right_high = right_x_current + margin
-
-            # window 시각화입니다.
-            if left_x_current != 0:
-                cv2.rectangle(
-                    out_img,
-                    (win_x_left_low, win_y_low),
-                    (win_x_left_high, win_y_high),
-                    (0, 255, 0),
-                    2,
-                )
-            if right_x_current != midpoint:
-                cv2.rectangle(
-                    out_img,
-                    (win_x_right_low, win_y_low),
-                    (win_x_right_high, win_y_high),
-                    (0, 0, 255),
-                    2,
-                )
-
-            # 왼쪽 오른쪽 각 차선 픽셀이 window안에 있는 경우 index를 저장합니다.
-            good_left_idx = (
-                (lane_pixel_y >= win_y_low)
-                & (lane_pixel_y < win_y_high)
-                & (lane_pixel_x >= win_x_left_low)
-                & (lane_pixel_x < win_x_left_high)
-            ).nonzero()[0]
-            good_right_idx = (
-                (lane_pixel_y >= win_y_low)
-                & (lane_pixel_y < win_y_high)
-                & (lane_pixel_x >= win_x_right_low)
-                & (lane_pixel_x < win_x_right_high)
-            ).nonzero()[0]
-
-            # Append these indices to the lists
-            left_lane_idx.append(good_left_idx)
-            right_lane_idx.append(good_right_idx)
-
-            # window내 설정한 pixel개수 이상이 탐지되면, 픽셀들의 x 좌표 평균으로 업데이트 합니다.
-            if len(good_left_idx) > min_pix:
-                left_x_current = np.int32(np.mean(lane_pixel_x[good_left_idx]))
-            if len(good_right_idx) > min_pix:
-                right_x_current = np.int32(np.mean(lane_pixel_x[good_right_idx]))
-
-        # np.concatenate(array) => axis 0으로 차원 감소 시킵니다.(window개수로 감소)
-        left_lane_idx = np.concatenate(left_lane_idx)
-        right_lane_idx = np.concatenate(right_lane_idx)
-
-        # window 별 좌우 도로 픽셀 좌표입니다.
-        left_x = lane_pixel_x[left_lane_idx]
-        left_y = lane_pixel_y[left_lane_idx]
-        right_x = lane_pixel_x[right_lane_idx]
-        right_y = lane_pixel_y[right_lane_idx]
-
-        # 좌우 차선 별 2차 함수 계수를 추정합니다.
-        if len(left_x) == 0 and len(right_x) == 0:
-            left_x = self.nothing_pixel_left_x
-            left_y = self.nothing_pixel_y
-            right_x = self.nothing_pixel_right_x
-            right_y = self.nothing_pixel_y
-        else:
-            if len(left_x) == 0:
-                left_x = right_x - round(self.img_x / 2)
-                left_y = right_y
-            elif len(right_x) == 0:
-                right_x = left_x + round(self.img_x / 2)
-                right_y = left_y
-
-        left_fit = np.polyfit(left_y, left_x, 2)
-        right_fit = np.polyfit(right_y, right_x, 2)
-        # 좌우 차선 별 추정할 y좌표입니다.
-        plot_y = np.linspace(0, binary_line.shape[0] - 1, 100)
-        # 좌우 차선 별 2차 곡선을 추정합니다.
-        left_fit_x = left_fit[0] * plot_y**2 + left_fit[1] * plot_y + left_fit[2]
-        right_fit_x = right_fit[0] * plot_y**2 + right_fit[1] * plot_y + right_fit[2]
-        center_fit_x = (right_fit_x + left_fit_x) / 2
-
-        # # window안의 lane을 black 처리합니다.
-        # out_img[lane_pixel_y[left_lane_idx], lane_pixel_x[left_lane_idx]] = (0, 0, 0)
-        # out_img[lane_pixel_y[right_lane_idx], lane_pixel_x[right_lane_idx]] = (0, 0, 0)
-
-        # 양쪽 차선 및 중심 선 pixel 좌표(x,y)로 변환합니다.
-        center = np.asarray(tuple(zip(center_fit_x, plot_y)), np.int32)
-        right = np.asarray(tuple(zip(right_fit_x, plot_y)), np.int32)
-        left = np.asarray(tuple(zip(left_fit_x, plot_y)), np.int32)
-
-        cv2.polylines(out_img, [left], False, (0, 0, 255), thickness=5)
-        cv2.polylines(out_img, [right], False, (0, 255, 0), thickness=5)
-        sliding_window_img = out_img
-        return sliding_window_img, left, right, center, left_x, left_y, right_x, right_y
+for window in range(nwindows):
 ```
+- window의 수만큼 반복을 진행
+- 반복문을 통해 각 window에 해당하는 정보 표현 
+
+```python
+win_y_low = binary_line.shape[0] - (window + 1) * window_height
+win_y_high = binary_line.shape[0] - window * window_height
+win_x_left_low = left_x_current - margin
+win_x_left_high = left_x_current + margin
+win_x_right_low = right_x_current - margin
+win_x_right_high = right_x_current + margi
+```
+- y축 좌표는 위에서 아래로 가는 방향으로 좌표가 상승하는 특징을 지님
+- win_y_low: binary_line의 height 정보를 이용하여 window의 각 y축 기준 하단의 좌표를 설정 변수
+- win_y_high: binary_line의 height 정보를 이용하여 window의 각 y축 기준 상단의 좌표를 설정 변수
+- win_x_left_low: 구한 차선의 왼쪽 좌표에 margin 값을 빼 window x축 기준 왼쪽 하단 좌표를 설정 변수
+- win_x_left_high: 구한 차선의 왼쪽 좌표에 margin 값을 더해 window x축 기준 왼쪽 상단 좌표를 설정 변수
+- win_x_right_low: 구한 차선의 오른쪽 좌표에 margin 값을 더해 window x축 기준 오른쪽 하단 좌표를 설정 변수 
+- win_x_right_high: 구한 차선의 오른쪽 좌표에 margin 값을 더해 window x축 기준 오른쪽 상단 좌표를 설정 변수  
+
+```pytorch
+if left_x_current != 0:
+    cv2.rectangle(
+        out_img,
+        (win_x_left_low, win_y_low),
+        (win_x_left_high, win_y_high),
+        (0, 255, 0),
+        2)
+if right_x_current != midpoint:
+    cv2.rectangle(
+        out_img,
+        (win_x_right_low, win_y_low),
+        (win_x_right_high, win_y_high),
+        (0, 0, 255),
+        2)
+```
+- cv2의 직사각형 모양을 그리는 rectangle을 이용하여 window를 그림
+- out_img에 그림을 그리며 사각형의 좌표를 구한 좌표를 사용하여 나타냄
+- (0, 0, 255)를 이용하여 window의 색상을 결정
+- 2는 window를 그리는 선의 두께를 설정
+
+```python
+good_left_idx = (
+    (lane_pixel_y >= win_y_low)
+    & (lane_pixel_y < win_y_high)
+    & (lane_pixel_x >= win_x_left_low)
+    & (lane_pixel_x < win_x_left_high)
+).nonzero()[0]
+
+good_right_idx = (
+    (lane_pixel_y >= win_y_low)
+    & (lane_pixel_y < win_y_high)
+    & (lane_pixel_x >= win_x_right_low)
+    & (lane_pixel_x < win_x_right_high)
+).nonzero()[0]
+```      
+- 차선 픽셀의 값이 설정된 window 내 범위에 들어오는 pixel중 0이 아닌 요소들의 index를 반환
+- [0]을 통해 해당 범위 내 pixel들의 row에 대한 값들을 나타내게 된다. 
+- good_left_idx: 왼쪽 차선 pixel에 대한 index 저장 변수
+- good_right_idx: 오른쪽 차선 pixel에 대한 index 저장 변수
+
+```python
+left_lane_idx.append(good_left_idx)
+right_lane_idx.append(good_right_idx
+```
+- 결정된 차선 pixel들의 index를 각 list에 추가
+
+```python
+if len(good_left_idx) > min_pix:
+    left_x_current = np.int32(np.mean(lane_pixel_x[good_left_idx]))
+if len(good_right_idx) > min_pix:
+    right_x_current = np.int32(np.mean(lane_pixel_x[good_right_idx])
+```
+- 왼쪽 차선에 포함된 pixel들의 수가 차선 판단 최소 개수보다 많은 경우 left_x_current를 해당 pixel들 x좌표 평균값으로 대체
+- 오른쪽 차선에 포함된 pixel들의 수가 차선 판단 최소 개수보다 많은 경우 right_x_current를 해당 pixel들 x좌표 평균값으로 대체
+
+```python
+left_lane_idx = np.concatenate(left_lane_idx)
+right_lane_idx = np.concatenate(right_lane_idx)
+```
+- np.concatenate() 함수는 주어진 배열들을 연결하여 하나의 배열로 합치는 함수
+- index들이 저장된 lef_lane_idx & right_lane_idx의 차원을 하나 줄인다. 
+
+```python
+left_x = lane_pixel_x[left_lane_idx]
+left_y = lane_pixel_y[left_lane_idx]
+right_x = lane_pixel_x[right_lane_idx]
+right_y = lane_pixel_y[right_lane_idx]
+```
+- 차선 pixel의 해당 index값을 사용하여 차선의 pixel값 좌표를 각 변수에 저장 
+- left_x: 왼쪽 차선의 x좌표를 나타내는 변수
+- left_y: 왼쪽 차선의 y좌표를 나타내는 변수
+- right_x: 오른쪽 차선의 x좌표를 나타내는 변수
+- right_y: 오른쪽 차선의 y좌표를 나타내는 변수
+
+```python
+if len(left_x) == 0 and len(right_x) == 0:
+    left_x = self.nothing_pixel_left_x
+    left_y = self.nothing_pixel_y
+    right_x = self.nothing_pixel_right_x
+    right_y = self.nothing_pixel_y
+
+else:
+    if len(left_x) == 0:
+        left_x = right_x - round(self.img_x / 2)
+        left_y = right_y
+    elif len(right_x) == 0:
+        right_x = left_x + round(self.img_x / 2)
+        right_y = left_y
+```
+- 왼쪽 차선과 오른쪽 차선의 x,y의 값이 없다고 판단하는 경우 임의의 값을 사용
+- 두 차선 중 한쪽만 인식이 된 경우, 반대쪽 차선의 data를 가운데 기준을 반전해서 사용
+
+```python
+left_fit = np.polyfit(left_y, left_x, 2)
+right_fit = np.polyfit(right_y, right_x, 2)
+```   
+- np.polyfit() 함수를 사용하여 이 점들에 가장 잘 맞는 2차 다항식을 추정
+- 각 변수에는 추정된 2차 다항식의 계수들을 저장      
+    
+```python
+plot_y = np.linspace(0, binary_line.shape[0] - 1, 100)
+```
+- np.linspace()는 주어진 범위 0부터 binary_line의 height - 1 범위 값 중 100개의 숫자를 생성 
+
+```python
+left_fit_x = left_fit[0] * plot_y**2 + left_fit[1] * plot_y + left_fit[2]
+right_fit_x = right_fit[0] * plot_y**2 + right_fit[1] * plot_y + right_fit[2]
+center_fit_x = (right_fit_x + left_fit_x) / 2
+```
+- 2차 다항식을 사용하여 좌측 차선 위 곡선을 표현하는 좌표를 표현 
+- left_fit_x: 좌측 차선 위 곡선 x좌표를 나타내는 변수
+- right_fit_x: 우측 차선 위 곡선 x좌표를 나타내는 변수 
+- center_fit_x: 둘의 중앙값을 나타내는 변수 
+
+```python
+center = np.asarray(tuple(zip(center_fit_x, plot_y)), np.int32)
+right = np.asarray(tuple(zip(right_fit_x, plot_y)), np.int32)
+left = np.asarray(tuple(zip(left_fit_x, plot_y)), np.int32)
+```
+- zip() 함수는 literable 객체를 쌍으로 묶어주는 역할 
+- 곡선 위의 한 점의 쌍을 zip으로 묶고 이를 tuple로 묶음
+- np.asarray(..., np.int32): 생성한 tuple을 data type으로 np.int32를 사용하여 NumPy 배열로 변환
+- 최종적으로 곡선 위의 점들을 좌표 형태로 표현
+
+```pytorch
+cv2.polylines(out_img, [left], False, (0, 0, 255), thickness=5)
+cv2.polylines(out_img, [right], False, (0, 255, 0), thickness=5)
+```
+- cv2.polylines() 함수는 OpenCV 라이브러리를 사용하여 이미지 위에 다각선을 그리는 함수
+- 우측, 좌측에 대한 차선을 나타내기 위해 out_img에 곡선을 그림
+- false는 다각선의 시작점과 끝점을 열린 형태로 두어 연결되지 않도록 설정
+- 이하의 인자들은 색과 두께를 설정
+
+```python
+return sliding_window_img, left, right, center, left_x, left_y, right_x, right_y
+```
+- 최종적으로 다음 변수들을 반환
+- sliding_window_img: 차선과 window가 그려진 image를 담는 변수
+- left, right, center: 각각 차선에 대한 좌표 쌍 변수
+- left_x, left_y, right_x, right_y: 각각 차선에 대한 좌표 변수
