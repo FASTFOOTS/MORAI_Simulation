@@ -27,7 +27,7 @@ rospy.spin()
 - rospy.spin()는 노드가 메시지나 이벤트를 기다리면서 실행을 계속하게 한다.
 
 
-**4. rgb_2_Gray**
+**4. rgb_to_Gray**
 ```python
 gray_img = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
 ```    
