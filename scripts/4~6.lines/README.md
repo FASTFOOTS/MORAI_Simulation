@@ -40,7 +40,13 @@ yellow_upper = np.array([30, 255, 255])
 - yellow_upper (h: 30, s: 255, v: 255)
 - 범위를 지정을 제대로 못할 경우, 마스크에 노이즈가 많이 생김
 
-- #### (yellow 범위 기존꺼랑 변경된거랑 마스크 사진 비교)
+![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/108729047/671b1870-a5aa-4f3c-9f67-30eb0483aa99)
+- 왼쪽
+  - yellow_lower = np.array([20, 100, 100])
+    yellow_upper = np.array([30, 255, 255])
+- 오른쪽
+  - yellow_lower = np.array([15, 80, 0])
+    yellow_upper = np.array([45, 255, 255])
 
 **3. mask 생성하기**
 ```python
@@ -82,4 +88,8 @@ cv2.imshow("blend_color", blend_color)
 ```
 - cv2.imshow를 사용해서 mask와 color(원본 사진에 mask를 합친 사진) 출력
 - mask와 color는 원하는 영역을 하얀색으로 표시할 것인가, 원본 색상으로 출력할 것인가 차이
-- #### (mask와 color를 비교하는 사진 추가)
+![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/108729047/9272faf4-70b8-431e-977b-2546ac37d486)
+- 왼쪽
+  - yellow_color
+- 오른쪽
+  - yellow_mask
