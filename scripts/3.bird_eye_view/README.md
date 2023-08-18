@@ -30,7 +30,9 @@ src = np.float32([
 - src_center_offset[0], src_center_offset[1] : 1번에서 선택한 기준점
 - 640 - src_center_offset[0], src_center_offset[1] : 기준점을 뒤집은 우측 차선 위의 기준점
 - 639, 479 : 우측 차선 하단 점
-- #### (사다리꼴을 그린 사진 추가하기)
+
+![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/1ef564c1-d0be-4c07-b72b-c82efe9ce269)
+
 
 **3. dst offset 설정**
 ```python
