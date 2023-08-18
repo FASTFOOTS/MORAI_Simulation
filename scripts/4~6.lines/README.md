@@ -6,7 +6,15 @@
 
 **0. RGB 색공간과 HSV 색공간**
 
-- (색공간의 이해를 돕기 위한 설명 찾아서 추가하기)
+![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/108729047/e8a3c4ef-a50a-4b13-9bed-06075ae70c88)
+
+- RGB는 색상으로 이미지를 표현
+- HSV는 H(Hue; 색조), S(Saturation; 채도), V(Value; 명도)로 이미지를 표현
+
+- RGB 이미지에서 색 정보를 검출하기 위해서는 R, G, B 세가지 속성을 모두 참고해야함.
+- HSV 이미지에서는 H(Hue)가 일정한 범위를 갖는 순수한 색 정보를 가지고 있기 때문에 RGB 이미지보다 쉽게 색 분류 가능
+- 특정 색 하나를 가져오는게 아니라 두 색 사이의 범위를 구해야하기 때문에 hsv가 유리
+
 
 
 **1. 색공간 변경**
