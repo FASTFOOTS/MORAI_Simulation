@@ -57,8 +57,8 @@ blend_color = cv2.bitwise_and(img, img, mask=blend_mask)
 
 ```
 - cv2.bitwise_and연산을 이용하여 img에 mask 합치기
-- ***
-- img 중에 mask가 있는 부분은 원본 색상으로 출력, mask가 없는 부분은 검은색으로 출력.
+- @@@_color는 원본이미지에 @@@_mask를 합친 이미지라고 생각해도 무방
+- img 중에 mask가 있는 부분은 원본 색상으로 출력, mask가 없는 부분은 검은색으로 출력
 
 **5. imshow로 출력**
 ```python
@@ -72,4 +72,6 @@ cv2.imshow("blend_mask", blend_mask)
 cv2.imshow("blend_color", blend_color)
 
 ```
-- cv2.imshow를 사용해서 mask와 mask를 씌운 이미지 출력
+- cv2.imshow를 사용해서 mask와 color(원본 사진에 mask를 합친 사진) 출력
+- mask와 color는 원하는 영역을 하얀색으로 표시할 것인가, 원본 색상으로 출력할 것인가 차이
+- #### (mask와 color를 비교하는 사진 추가)
