@@ -55,21 +55,16 @@ dst = np.float32([
 - #### (사다리꼴 그린 사진과 변경된 사진 점 위치 표시해서 서로 비교하는 사진 )
 
 
-**5. 사다리꼴 영역을 dst 영역으로 사진 변환**
+**5. 사다리꼴 영역을 dst 영역으로 투시 변환**
 ```python
 matrix = cv2.getPerspectiveTransform(src, dst)
 warp_img = cv2.warpPerspective(img, matrix, (self.img_x, self.img_y))
 ```
 - cv2.getPerspectiveTransform을 사용하여 src영역을 dst로 바꾸기
-- src에서 정한 4개의 점과 dst에서 정한 4개의 점을 바탕으로 영상 변환
+- src에서 정한 4개의 점과 dst에서 정한 4개의 점을 바탕으로 영상 투시변환하는 원근 맵 행렬 생성
 ![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/108729047/365cd64c-07e0-4c62-93b2-ad8db2ff715e)
 - 해당 사진을 참고하면 이해하기 편리
    
-- cv2.warpPerspective를 사용해서 원본 이미지에 matrix(
+- cv2.warpPerspective를 사용해서 원본 이미지에 matrix(투시변환한 원근 맵 행렬)를 적용
  
 - #### (사다리꼴 그린 사진과 변경된 사진 점 위치 표시해서 서로 비교하는 사진 )
-
-
-matrix = cv2.getPerspectiveTransform(src, dst)
-        matrix_inv = cv2.getPerspectiveTransform(dst, src)
-        warp_img = cv2.warpPerspective(img, matrix, (self.img_x, self.img_y))
