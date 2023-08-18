@@ -181,7 +181,7 @@ if left_x_base == 0:
     left_x_current = self.nothing_left_x_base
 else:
     left_x_current = left_x_base
-
+ 
 if right_x_base == midpoint:
     right_x_current = self.nothing_right_x_base
 else:
@@ -249,10 +249,10 @@ win_x_right_high = right_x_current + margi
 - y축 좌표는 위에서 아래로 가는 방향으로 좌표가 상승하는 특징을 지님
 - win_y_low: binary_line의 height 정보를 이용하여 window의 각 y축 기준 하단의 좌표를 설정 변수
 - win_y_high: binary_line의 height 정보를 이용하여 window의 각 y축 기준 상단의 좌표를 설정 변수
-- win_x_left_low: 구한 차선의 왼쪽 좌표에 margin 값을 빼 window x축 기준 왼쪽 하단 좌표를 설정 변수
-- win_x_left_high: 구한 차선의 왼쪽 좌표에 margin 값을 더해 window x축 기준 왼쪽 상단 좌표를 설정 변수
-- win_x_right_low: 구한 차선의 오른쪽 좌표에 margin 값을 더해 window x축 기준 오른쪽 하단 좌표를 설정 변수 
-- win_x_right_high: 구한 차선의 오른쪽 좌표에 margin 값을 더해 window x축 기준 오른쪽 상단 좌표를 설정 변수  
+- win_x_left_low: 구한 차선의 왼쪽 좌표에 margin 값을 빼 좌측 window의 x축 기준 왼쪽 좌표 설정 변수
+- win_x_left_high: 구한 차선의 왼쪽 좌표에 margin 값을 빼 좌측 window의 x축 기준 오른쪽 좌표 설정 변수
+- win_x_right_low: 구한 차선의 오른쪽 좌표에 margin 값을 더해 우측 window의 x축 기준 왼쪽 좌표 설정 변수 
+- win_x_right_high: 구한 차선의 오른쪽 좌표에 margin 값을 더해 우측 window의 x축 기준 오른쪽 좌표 설정 변수  
 
 ```pytorch
 if left_x_current != 0:
@@ -345,7 +345,7 @@ else:
         right_y = left_y
 ```
 - 왼쪽 차선과 오른쪽 차선의 x,y의 값이 없다고 판단하는 경우 임의의 값을 사용
-- 두 차선 중 한쪽만 인식이 된 경우, 반대쪽 차선의 data를 가운데 기준을 반전해서 사용
+- 두 차선 중 한쪽만 인식이 된 경우, 인식된 차선을 기준으로 반대쪽 차선을 img_x/2(240픽셀) 만큼 좌측 혹은 우측에 생성
 
 ```python
 left_fit = np.polyfit(left_y, left_x, 2)
@@ -357,7 +357,7 @@ right_fit = np.polyfit(right_y, right_x, 2)
 ```python
 plot_y = np.linspace(0, binary_line.shape[0] - 1, 100)
 ```
-- np.linspace()는 주어진 범위 0부터 binary_line의 height - 1 범위 값 중 100개의 숫자를 생성 
+- np.linspace()는 주어진 범위 0부터 binary_line의 height - 1 범위 값을 일정한 간격으로 나누어 100개의 숫자를 생성
 
 ```python
 left_fit_x = left_fit[0] * plot_y**2 + left_fit[1] * plot_y + left_fit[2]
@@ -367,7 +367,10 @@ center_fit_x = (right_fit_x + left_fit_x) / 2
 - 2차 다항식을 사용하여 좌측 차선 위 곡선을 표현하는 좌표를 표현 
 - left_fit_x: 좌측 차선 위 곡선 x좌표를 나타내는 변수
 - right_fit_x: 우측 차선 위 곡선 x좌표를 나타내는 변수 
-- center_fit_x: 둘의 중앙값을 나타내는 변수 
+- center_fit_x: 둘의 중앙값을 나타내는 변수
+![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/6cb7e673-13b0-4cd5-9866-843c399d9078)
+
+
 
 ```python
 center = np.asarray(tuple(zip(center_fit_x, plot_y)), np.int32)
@@ -395,3 +398,5 @@ return sliding_window_img, left, right, center, left_x, left_y, right_x, right_y
 - sliding_window_img: 차선과 window가 그려진 image를 담는 변수
 - left, right, center: 각각 차선에 대한 좌표 쌍 변수
 - left_x, left_y, right_x, right_y: 각각 차선에 대한 좌표 변수
+
+![Untitled](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/4af240e1-f886-46d5-9298-14d1b8a36b0c)
