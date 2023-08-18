@@ -49,3 +49,19 @@ dst = np.float32([
 - dst_offset을 바탕으로 변경시킬 직사각형 영역의 좌표 지정하기
 - 차례로 좌측 하단, 좌측 상단, 우측 상단, 우측 하단 점
 - #### (사다리꼴 그린 사진과 변경된 사진 점 위치 표시해서 서로 비교하는 사진 )
+
+
+**5. 사다리꼴 영역을 dst 영역으로 사진 변환**
+```python
+matrix = cv2.getPerspectiveTransform(src, dst)
+warp_img = cv2.warpPerspective(img, matrix, (self.img_x, self.img_y))
+```
+- src는 사다리꼴 영역에
+- #### (사다리꼴 그린 사진과 변경된 사진 점 위치 표시해서 서로 비교하는 사진 )
+
+
+
+
+matrix = cv2.getPerspectiveTransform(src, dst)
+        matrix_inv = cv2.getPerspectiveTransform(dst, src)
+        warp_img = cv2.warpPerspective(img, matrix, (self.img_x, self.img_y))
