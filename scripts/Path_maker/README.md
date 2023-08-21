@@ -1,5 +1,3 @@
-## path_maker.launch
-
 ```python
 <launch>
 	<node pkg="scout_ros" type="scout_path_maker.py" name="maker" args="path kw 302473.539105 4123735.71315" output="screen" />
@@ -55,4 +53,4 @@ def gpsCB(self, data):
 ```
 - 구독한 gps 데이터는 위도와 경도로 이루어져 있으며 이 값을 x,y좌표계로 변환하는 함수
 
-
+![gps_path_making](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/d614078e-61a8-4ec0-9a89-083a7690db92)
