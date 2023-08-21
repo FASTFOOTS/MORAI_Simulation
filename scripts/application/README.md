@@ -40,7 +40,8 @@ client.wait_for_server()
 ```python
 goal = MoveBaseGoal()
 ```
-- 이동 목표 설정 message의 type을 정의하는 클래스의 instance를 goal이라는 이름으로 생성 
+- 이동 목표 설정 message의 type을 정의하는 클래스의 instance를 goal이라는 이름으로 생성
+
 ![Screenshot from 2023-08-21 11-22-53](https://github.com/FASTFOOTS/MORAI_Simulation/assets/108657061/5af36068-7df1-43a5-8d01-77de3649542b)
 - header: 메시지 헤더 정보를 담고 있는 부분
     - seq: message의 시퀀스 번호  
