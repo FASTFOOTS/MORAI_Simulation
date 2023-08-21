@@ -41,7 +41,7 @@ self.nothing_flag = False
 img = self.bridge.compressed_imgmsg_to_cv2(data)
 ```
 - ros image data를 open_cv type으로 변환한 뒤 img 변수에 저장
-- img: open_cv typ의 image가 저장된 변수
+- img: open_cv type의 image가 저장된 변수
 
 ```python
 self.nwindows = 10
@@ -52,7 +52,7 @@ self.nwindows = 10
 self.window_height = np.int32(img.shape[0] / self.nwindows)
 ```
 - window의 height를 설정하기 위해 image의 height 정보와 window의 개수 정보를 사용
-- img는 (height, width, channel) 형태
+- img는 (height, width, channel) 형태로 구성
 - img.shape[0]은 height를 의미
 - window_height: 한 window의 height 정보가 저장된 변수
 
