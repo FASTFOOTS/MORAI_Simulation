@@ -42,6 +42,12 @@ goal = MoveBaseGoal()
 ```
 - 이동 목표 설정 message의 type을 정의하는 클래스의 instance를 goal이라는 이름으로 생성 
 ![Screenshot from 2023-08-21 11-22-53](https://github.com/FASTFOOTS/MORAI_Simulation/assets/108657061/5af36068-7df1-43a5-8d01-77de3649542b)
+- header: 메시지 헤더 정보를 담고 있는 부분
+    - frame_id: 로봇의 이동 목표 위치가 어떤 좌표 프레임에서 표현되는지 지정하는 좌표 frame ID
+    - stamp: message에 대한 어떤 이벤트나 데이터가 발생한 시간을 나타내는 정보를 나타내는 타임스탬프
+- pose: 로봇의 이동 목표 위치와 방향을 담고 있는 부분
+    - position: 3차원 좌표를 가지는 메시지로서 x, y, z 좌표
+    - orientation: 로봇의 방향을 나타내는 quaternion으로 x, y, z, w 값을 지님
 
 
 ```python
@@ -50,12 +56,6 @@ goal.target_pose.header.stamp = rospy.Time.now()
 goal.target_pose.pose.position.x = 1.0
 goal.target_pose.pose.orientation.w = 1.0
 ```
-- header: 메시지 헤더 정보를 담고 있는 부분
-    - frame_id: 로봇의 이동 목표 위치가 어떤 좌표 프레임에서 표현되는지 지정하는 좌표 frame ID
-    - stamp: message에 대한 어떤 이벤트나 데이터가 발생한 시간을 나타내는 정보를 나타내는 타임스탬프
-- pose: 로봇의 이동 목표 위치와 방향을 담고 있는 부분
-    - position: 3차원 좌표를 가지는 메시지로서 x, y, z 좌표
-    - orientation: 로봇의 방향을 나타내는 quaternion으로 x, y, z, w 값을 지님
 - frame_id를 map으로 설정하여 map frame 기준으로 위치 설정
 - 현재 시간을 사용하여 mseeage의 timestamp를 기록 
 - 목표 위치를 x축으로 1m 이동하도록 설정
