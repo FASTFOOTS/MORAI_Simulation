@@ -27,10 +27,11 @@ roslaunch kw_tf navigation.launch
 ```
 - static_transform_publisher
   - ROS의 패키지인 tf2_ros에 포함된 노드 중 하나
-  - slam을 통한 
--
-- ROS의 패키지인 tf2_ros에 포함된 노드 중 하나입니다. 이 노드는 ROS의 tf2 시스템을 사용하여 로봇 또는 시스템의 정적인(변하지 않는) 변환 관계(static transform)를 생성하고 발행하는 데 사용
-
+  - slam을 통해 제작된 맵에서 장애물과 벽을 감지하고 피하기 위해 사용
+  - 로봇과 물체 사이의 정확한 거리 탐지
+- pub_odom
+  - 로봇의 센서데이터를 기반으로 odom을 발행하여 로봇의 위치 파악
+  
 ### pointcloud_to_laserscan
 - 로봇이 레이저를 활용하여 주변 환경 인식, 클라우드 데이터를 레이저 스캔 데이터로 변환
 
