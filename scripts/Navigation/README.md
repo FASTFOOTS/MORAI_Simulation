@@ -65,6 +65,19 @@ roslaunch kw_tf navigation.launch
   - 로봇의 센서 데이터로 얻는 정보와 맵이 일치하도록 수정
   - 이를 바탕으로 로봇의 경로 추적
 - move base
-  - 
+  - 경로에 맞게 로봇을 주어진 목표 지점으로 이동
+  ``` python
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <rosparam file="$(find scout_mini_2dnav)/launch/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+  <rosparam file="$(find scout_mini_2dnav)/launch/costmap_common_params.yaml" command="load" ns="local_costmap" />
+  <rosparam file="$(find scout_mini_2dnav)/launch/local_costmap_params.yaml" command="load" />
+  <rosparam file="$(find scout_mini_2dnav)/launch/global_costmap_params.yaml" command="load" /> 
+  <rosparam file="$(find scout_mini_2dnav)/launch/base_local_planner_params.yaml" command="load" />
+  ```
+    - costmap_common_params.yaml: 전역 및 로컬 코스트맵의 공통 파라미터를 로드
+    - local_costmap_params.yaml: 로컬 코스트맵 파라미터 로드
+    - global_costmap_params.yaml: 전역 코스트맵 파라미터 로드
+    - base_local_planner_params.yaml: 로봇의 로컬 경로 계획 파라미터 로드
 - run rviz
-  
+  - RViz를 실행하고 구성 파일을 로드하여 시각화
+  - 로봇의 위치, 센서 데이터, 맵, 경로 등을 실시간으로 시각화하고 모니터링
