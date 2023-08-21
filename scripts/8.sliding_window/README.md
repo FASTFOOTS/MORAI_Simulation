@@ -32,7 +32,8 @@ rospy.Subscriber("/image_jpeg/compressed", CompressedImage, self.img_CB)
 self.nothing_flag = False
 ```
 
-- flag 하나를 선언하고 이 초기값을 false로 설정 
+- flag 하나를 선언하고 이 초기값을 false로 설정
+- 이 flag는 차선 인식 여부를 나타내는 flag이다. 
 
 **5. img_CB function**
 
