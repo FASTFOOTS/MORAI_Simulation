@@ -1,3 +1,5 @@
+## sample_node.launch
+
 ```python
 <launch>
 	<node pkg="scout_ros" type="scout_path_maker.py" name="maker" args="path kw 302473.539105 4123735.71315" output="screen" />
