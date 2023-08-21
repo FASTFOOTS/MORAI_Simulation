@@ -84,7 +84,13 @@ else :
 - current_waypoint변수는 path maker에서 작성된 좌표 리스트의 인덱스를 가지고 있다.
 - current_waypoint 로부터 앞으로 30개의 점까지 인식하여 차선을 계산함
 
-# 여기에 비교하는 영상 넣기.
+### waypoint 10
+![w10](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/edf3b41d-8629-4a43-8962-a55e380aa705)
+### waypoint 30
+![w30](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/50041763-f21e-47c6-96f7-1e5b946d5ece)
+### waypoint 50
+![w50](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/dd80a121-d9ef-4cf7-9b54-e57dbb555033)
+
 
 ```python
 def latticePlanner(ref_path,global_vaild_object,vehicle_status,current_lane):
@@ -128,9 +134,12 @@ def latticePlanner(ref_path,global_vaild_object,vehicle_status,current_lane):
 ```
 - 이 코드에서 가장 중요한 부분
 - latticePlanner 함수는 path_maker에서 만든 경로와, 시뮬레이션 내의 장애물의 정보, 자동차의 상태(속도, 위치), 선택한 차선을 입력으로 받아 자신이 앞으로 가야할 차선을 새롭게 선택하는 함수이다.
-- look_distance는 현재 로봇의 속력(km/h)에 비례하여 전방을 바라본다. 최소값은 3, 최대값을 5 
+- look_distance는 현재 로봇의 속력(km/h)에 비례하여 전방을 바라본다. 최소값은 3, 최대값을 5로 설정
 
-# 비교 gif 넣기
+### look distance 3~5
+![w30](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/a12861b9-6ca7-44f4-996b-76499610576e)
+### look distance 1~2
+![w30l12](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/976d41ee-82f9-47d2-ae70-74060c9ea3bb)
 
 - 7개의 차선들의 각 가중치는 다음과 같다. lane_weight=[6,4,2,0,2,4,6] 이 중 가장 낮은 weight를 갖는 차선을 선택하여 추종을 시작한다.
 - 장애물의 갯수가 1개 이상이라면 장애물을 회피하도록 차선을 선택하는 조건문이 작동한다.
