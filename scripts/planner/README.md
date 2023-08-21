@@ -72,3 +72,68 @@ ctrl_msg.linear.x= max(target_velocity,0)
 ---
 ---
 ---
+
+## utils.py
+
+```python
+if current_waypoint+30 > len(ref_path.poses) :
+    last_local_waypoint= len(ref_path.poses)
+else :
+    last_local_waypoint=current_waypoint+30
+```
+- current_waypoint변수는 path maker에서 작성된 좌표 리스트의 인덱스를 가지고 있다.
+- current_waypoint 로부터 앞으로 30개의 점까지 인식하여 차선을 계산함
+
+# 여기에 비교하는 영상 넣기.
+
+```python
+def latticePlanner(ref_path,global_vaild_object,vehicle_status,current_lane):
+    out_path=[]
+    selected_lane=-1
+    lattic_current_lane=current_lane
+    look_distance=int(vehicle_status[3]*3.6*0.2*2)
+    if look_distance < 3 :
+        look_distance=1     #min 5m
+    if look_distance > 5 :
+        look_distance=5  
+    
+
+    ...
+
+
+    lane_weight=[6,4,2,0,2,4,6] #reference path 
+    collision_bool=[False,False,False,False,False,False,False]
+
+    if len(global_vaild_object)>0:
+
+        for obj in global_vaild_object :
+            if  obj[0]==2 or obj[0]==1 or obj[0] == 0: 
+                for path_num in range(len(out_path)) :
+                    
+                    for path_pos in out_path[path_num].poses :
+                        
+                        dis= sqrt(pow(obj[1]-path_pos.pose.position.x,2)+pow(obj[2]-path_pos.pose.position.y,2))
+
+                        if dis<1.5:
+                            collision_bool[path_num]=True
+                            lane_weight[path_num]=lane_weight[path_num]+100
+                            break
+    else :
+        print("No Obstacle")
+
+    selected_lane=lane_weight.index(min(lane_weight))
+    print(lane_weight,selected_lane)
+    all_lane_collision=True
+
+```
+- 이 코드에서 가장 중요한 부분
+- latticePlanner 함수는 path_maker에서 만든 경로와, 시뮬레이션 내의 장애물의 정보, 자동차의 상태(속도, 위치), 선택한 차선을 입력으로 받아 자신이 앞으로 가야할 차선을 새롭게 선택하는 함수이다.
+- look_distance는 현재 로봇의 속력(km/h)에 비례하여 전방을 바라본다. 최소값은 3, 최대값을 5 
+
+# 비교 gif 넣기
+
+- 7개의 차선들의 각 가중치는 다음과 같다. lane_weight=[6,4,2,0,2,4,6] 이 중 가장 낮은 weight를 갖는 차선을 선택하여 추종을 시작한다.
+- 장애물의 갯수가 1개 이상이라면 장애물을 회피하도록 차선을 선택하는 조건문이 작동한다.
+- 해당 조건문에서는 7개의 차선들과 장애물 사이의 거리를 각각 계산하고 장애물이 차선과 1.5m 이내에 있으면 해당 차선의 weight를 매우 높여 해당 차선을 선택하지 않도록 한다.
+
+
