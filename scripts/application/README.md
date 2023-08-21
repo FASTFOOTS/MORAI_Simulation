@@ -18,12 +18,14 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 - MoveBaseGoal은 이동 목표 설정 message의 type을 정의하는 클래스
 - MoveBaseGoal class는 로봇의 이동 목표를 정의하는 데 사용되며, 로봇이 어디로 이동해야 하는지를 지정하는 데 사용
 
+**2. init node**
 ```python
 rospy.init_node('application', anonymous=True)
 ```
 - application이라는 이름의 node를 생성
 - anonymous 매개변수를 True로 사용하여 여러 개의 같은 node를 실행하고자 하는 경우, node이름 뒤에 고유한 식별자를 추가하여 같은 node를 여러번 실행하여도 이름 충돌이 없게 함
 
+**3. create action client**
 ```python
 client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
 ```
@@ -37,6 +39,7 @@ client.wait_for_server()
 ```
 - wait_for_server method는 action client와 action server간 연결이 설정될 때까지 대기하여 연결 상태 확인 후 안정적 통신을 가능하게 함
 
+**4. create goal instance**
 ```python
 goal = MoveBaseGoal()
 ```
@@ -54,7 +57,7 @@ goal = MoveBaseGoal()
     - position: 3차원 좌표를 가지는 메시지로서 x, y, z 좌표
     - orientation: 로봇의 방향을 나타내는 quaternion으로 x, y, z, w 값을 지님
 
-
+**5. change robot motion**
 ```python
 goal.target_pose.header.frame_id = "map"
 goal.target_pose.header.stamp = rospy.Time.now()
@@ -66,6 +69,7 @@ goal.target_pose.pose.orientation.w = 1.0
 - 목표 위치를 x축으로 1m 이동하도록 설정
 - 로봇의 방향을 w를 사용하여 설정 
 
+**6. activate goal message**
 ```python
 client.send_goal(goal)
 wait = client.wait_for_result()
