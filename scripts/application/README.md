@@ -15,14 +15,14 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 - move_base_msgs package는 로봇의 이동을 명령하고 이동 상태를 나타내기 위한 여러 가지 message type을 포함
 - MoveBaseAction은 이동 action message의 형식을 정의하는 클래스
 - MoveBaseAction class는 로봇의 이동 action에 대한 명세와 결과를 다루는 데 사용
-- MoveBaseGoal은 이동 목표 설정 message의 type을 정의하는 클래스. 
+- MoveBaseGoal은 이동 목표 설정 message의 type을 정의하는 클래스
 - MoveBaseGoal class는 로봇의 이동 목표를 정의하는 데 사용되며, 로봇이 어디로 이동해야 하는지를 지정하는 데 사용
 
 ```python
 rospy.init_node('application', anonymous=True)
 ```
 - application이라는 이름의 node를 생성
-- anonymous 매개변수를 True로 사용하여 여러 개의 같은 node를 실행하고자 하는 경우, node이름 뒤에 고유한 식별자를 추가하여 같은 node를 여러번 실행하여도 이름 충돌이 없게 함.
+- anonymous 매개변수를 True로 사용하여 여러 개의 같은 node를 실행하고자 하는 경우, node이름 뒤에 고유한 식별자를 추가하여 같은 node를 여러번 실행하여도 이름 충돌이 없게 함
 
 ```python
 client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
@@ -54,7 +54,7 @@ goal.target_pose.pose.orientation.w = 1.0
     - stamp: message에 대한 어떤 이벤트나 데이터가 발생한 시간을 나타내는 정보를 나타내는 타임스탬프
 - pose: 로봇의 이동 목표 위치와 방향을 담고 있는 부분
     - position: 3차원 좌표를 가지는 메시지로서 x, y, z 좌표
-    - orientation: 로봇의 방향을 나타내는 quaternion으로 x, y, z, w 값을 지님.
+    - orientation: 로봇의 방향을 나타내는 quaternion으로 x, y, z, w 값을 지님
 - frame_id를 map으로 설정하여 map frame 기준으로 위치 설정
 - 현재 시간을 사용하여 mseeage의 timestamp를 기록 
 - 목표 위치를 x축으로 1m 이동하도록 설정
