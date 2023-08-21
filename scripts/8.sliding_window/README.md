@@ -369,7 +369,9 @@ center_fit_x = (right_fit_x + left_fit_x) / 2
 - left_fit_x: 좌측 차선 위 곡선 x좌표를 나타내는 변수
 - right_fit_x: 우측 차선 위 곡선 x좌표를 나타내는 변수 
 - center_fit_x: 둘의 중앙값을 나타내는 변수
-![image](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/6cb7e673-13b0-4cd5-9866-843c399d9078)
+
+
+<p align="left"><img width="550" src="https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/6cb7e673-13b0-4cd5-9866-843c399d9078.png"><p>
 
 
 
