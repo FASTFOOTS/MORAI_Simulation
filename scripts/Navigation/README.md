@@ -5,19 +5,10 @@
 - pathplanning
   - 로봇이 지도 상에서 주어진 목표 지점에 도달하기 위한 경로를 생성하는 기술
 
-**launch 파일 실행 목록**
-
-```python
-roslaunch rosbridge_server rosbridge_websocket.launch
-roslaunch kw_tf tf_setting.launch
-roslaunch pointcloud_to_laserscan sample_node.launch
-roslaunch kw_tf navigation.launch  
-```
-
-### rosbridge_server 실행
+### rosbridge_server 패키지 rosbridge_websocket.launch 실행
 - ROS와 다른 어플리케이션(MORAISim) 간의 통신을 가능하게 하는 브릿지 역할
 
-### tf_setting
+### kw_tf 패키지 tf_setting.launch 실행
 - scout 메세지를 기반으로 로봇의 위치 추적하여 오돔으로 발행
 ```python
 <launch>
@@ -33,11 +24,11 @@ roslaunch kw_tf navigation.launch
   - 로봇의 센서데이터를 기반으로 odometry을 발행
   - 정확한 로봇의 위치를 파악하기 위해 실행
   
-### pointcloud_to_laserscan
+### pointcloud_to_laserscan 패키지 sample_node.launch 실행
 - 3D 포인트 클라우드 데이터를 2D 레이저 스캔 데이터로 변환
 - 레이저를 활용하여 로봇이 주변 환경 탐지 및 장애물 감지, 회피할 수 있게 하기 위해 실행
   
-### navigation
+### kw_tf 패키지 navigation.launch 실행
 - 시뮬레이션 상에서 원하는 위치로 이동하기 위한 navigation 진행
 ```python
 <launch>
@@ -81,3 +72,13 @@ roslaunch kw_tf navigation.launch
 - run rviz
   - RViz를 실행하고 구성 파일을 로드하여 시각화
   - 로봇의 위치, 센서 데이터, 맵, 경로 등을 실시간으로 시각화하고 모니터링
+
+
+**launch 파일 실행 목록**
+
+```python
+roslaunch rosbridge_server rosbridge_websocket.launch
+roslaunch kw_tf tf_setting.launch
+roslaunch pointcloud_to_laserscan sample_node.launch
+roslaunch kw_tf navigation.launch  
+```
