@@ -33,3 +33,7 @@
 ```
 - map_saver를 실행하여 작성된 map을 저장합니다
 
+![mapping3](https://github.com/FASTFOOTS/MORAI_Simulation/assets/80691076/bbb6f7b0-fbaa-4529-a9ba-b6e16ab873b2)
+
+[![mapping](https://img.youtube.com/vi/ckxjADYKlAA/0.jpg)](https://youtu.be/ckxjADYKlAA)
+
