@@ -215,9 +215,9 @@ min_pix = round((margin * 2 * window_height) * 0.0031) # 24
 - min_pixel: 차선으로 인식하기 위한 threshold를 나타내는 pixel 개수 지정 변수 
 
 ```python
-    lane_pixel = binary_line.nonzero()
-    lane_pixel_y = np.array(lane_pixel[0])
-    lane_pixel_x = np.array(lane_pixel[1])
+lane_pixel = binary_line.nonzero()
+lane_pixel_y = np.array(lane_pixel[0])
+lane_pixel_x = np.array(lane_pixel[1])
 ```
 - nonzero()는 NumPy 배열에서 0이 아닌 요소 index 추출 함수 
 - lane_pixel: binary_line에서 0이 아닌 값들을 나타내며, (row,column)의 형태
